@@ -18,8 +18,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     //metodos
-
     public List<Category> getAllCategories(){
-        return categoryService.findAll
+        return categoryService.findAll();
     }
 }
