@@ -2,6 +2,7 @@ package com.movieflix.movieflix.service;
 
 import com.movieflix.movieflix.entity.Category;
 import com.movieflix.movieflix.entity.Movie;
+import com.movieflix.movieflix.entity.Streaming;
 import com.movieflix.movieflix.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final CategoryService categoryService;
+    private final StreamingService streamingService;
 
     public Movie save(Movie movie){
-        this.findCategories(movie.getCategories());
-    return movieRepository.save(movie);
+        movie.setCategories(this.findCategories(movie.getCategories()));
+        movie.setStreamings(this.findStreaming(movie.getStreamings()));
+        return movieRepository.save(movie);
     }
 
     public List<Movie> findAll(){
@@ -33,4 +36,10 @@ public class MovieService {
          return categoriesFound;
     }
 
+    private List<Streaming> findStreaming(List<Streaming> streamings) {
+        List<Streaming> streamingsFound = new ArrayList<>();
+        streamings.forEach(streaming -> streamingService.findById(streaming.getId()).ifPresent(streamingsFound::add));
+
+        return streamingsFound;
+    }
 }
