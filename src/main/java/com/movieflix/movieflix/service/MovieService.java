@@ -29,6 +29,17 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public List<Movie> findByCategory(Long categoryId) {
+        return movieRepository.findMovieByCategories(
+                List.of(Category.builder().id(categoryId).build())
+        );
+    }
+
+    public void delete(Long movieId){
+        movieRepository.deleteById(movieId);
+    }
+
+
     public Optional<Movie> findById(Long id) {
         return movieRepository.findById(id);
     }
