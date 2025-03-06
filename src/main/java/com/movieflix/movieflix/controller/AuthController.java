@@ -2,6 +2,7 @@ package com.movieflix.movieflix.controller;
 
 import com.movieflix.movieflix.config.TokenService;
 import com.movieflix.movieflix.entity.User;
+import com.movieflix.movieflix.exception.UsernameOrPasswordInvalidException;
 import com.movieflix.movieflix.mapper.UserMapper;
 import com.movieflix.movieflix.request.LoginRequest;
 import com.movieflix.movieflix.request.UserRequest;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        try(){
+
+        } catch (BadCredentialsException e) {
+            throw new UsernameOrPasswordInvalidException("Usuario ou senha invalidos. ");
+        }
         UsernamePasswordAuthenticationToken userAndPass =
                 new UsernamePasswordAuthenticationToken(request.email(), request.password());
 
